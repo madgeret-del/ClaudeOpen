@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude</title>
+<title>ClaudeOpen</title>
+<meta name="description" content="Claude-inspired browser chat UI for OpenAI-compatible APIs.">
+<meta name="theme-color" content="#1E1E1C">
 <style>
 @font-face{
   font-family:'Anthropic Serif';
@@ -375,6 +377,28 @@
     </div>
   </div>
 </div>
+
+<script>
+/* Browser storage adapter.
+   GitHub Pages and normal browsers do not provide window.storage, so fall back
+   to localStorage while keeping the async interface used by the app. */
+if (!window.storage) {
+  const STORAGE_PREFIX = 'claudeopen-storage:';
+  window.storage = {
+    async get(key) {
+      const value = localStorage.getItem(STORAGE_PREFIX + key);
+      return value === null ? null : { value };
+    },
+    async set(key, value) {
+      localStorage.setItem(STORAGE_PREFIX + key, String(value));
+      return { key, value: String(value) };
+    },
+    async delete(key) {
+      localStorage.removeItem(STORAGE_PREFIX + key);
+    }
+  };
+}
+</script>
 
 <script>
 (function(){
